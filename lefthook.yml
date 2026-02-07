@@ -1,0 +1,22 @@
+skip_lfs: true
+output:
+  - success
+  - failure
+pre-push:
+  parallel: true
+  commands:
+    test:
+      run: just test
+    lint:
+      run: just lint
+pre-commit:
+  parallel: true
+  commands:
+    fmt:
+      glob: "*.{go,proto,html,css,ts,json}"
+      run: just fmt
+      stage_fixed: true
+    build-protos:
+      glob: "*.proto"
+      run: just build-protos-unconditionally
+      stage_fixed: true
